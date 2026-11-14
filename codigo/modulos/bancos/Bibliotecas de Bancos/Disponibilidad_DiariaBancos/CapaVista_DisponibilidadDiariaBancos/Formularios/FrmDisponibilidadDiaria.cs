@@ -498,6 +498,17 @@ namespace CapaVista_DisponibilidadDiaria.Formularios
         }
         private void BancosBtnFooterAyuda_Click(object sender, EventArgs e)
         {
+            DirectoryInfo Directorio = new DirectoryInfo(Application.StartupPath);
+            while (Directorio != null)
+            {
+                string Ruta = Path.Combine(Directorio.FullName, "ayuda", "modulos", "bancos", "BancosAyudas", "BancosAyudas.chm");
+                if (File.Exists(Ruta))
+                {
+                    Help.ShowHelp(this, Ruta, HelpNavigator.Topic, "DisponibilidadDiaria_Bancos.html");
+                    return;
+                }
+                Directorio = Directorio.Parent;
+            }
             MessageBox.Show(this, "DISPONIBILIDAD DIARIA\n\n" +
                 "Selecciona fecha, banco, cuenta y moneda; pulsa Consultar para ver el corte. La consulta de hoy recalcula primero los datos operativos.\n\n" +
                 "Disponible = saldo inicial + ingresos - egresos - comprometido - restringido.\n\n" +
