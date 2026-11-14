@@ -1060,9 +1060,7 @@ namespace CapaVista_TipoCambio.Formularios
             while (Directorio != null)
             {
                 string Ruta = Path.Combine(Directorio.FullName, "ayuda", "modulos", "bancos", "BancosAyudas", "BancosAyudas.chm");
-                string ProyectoAyuda = Path.Combine(Directorio.FullName, "ayuda", "modulos", "bancos", "BancosAyudas", "BancosAyudas.hhp");
-                if (File.Exists(Ruta) && File.Exists(ProyectoAyuda) &&
-                    File.GetLastWriteTimeUtc(Ruta) >= File.GetLastWriteTimeUtc(ProyectoAyuda))
+                if (File.Exists(Ruta))
                 {
                     Help.ShowHelp(this, Ruta, HelpNavigator.Topic, "TipoCambio_Bancos.html");
                     return;
