@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Globalization;
@@ -1059,9 +1060,22 @@ namespace CapaVista_TipoCambio.Formularios
             while (Directorio != null)
             {
                 string Ruta = Path.Combine(Directorio.FullName, "ayuda", "modulos", "bancos", "BancosAyudas", "BancosAyudas.chm");
-                if (File.Exists(Ruta))
+                string ProyectoAyuda = Path.Combine(Directorio.FullName, "ayuda", "modulos", "bancos", "BancosAyudas", "BancosAyudas.hhp");
+                if (File.Exists(Ruta) && File.Exists(ProyectoAyuda) &&
+                    File.GetLastWriteTimeUtc(Ruta) >= File.GetLastWriteTimeUtc(ProyectoAyuda))
                 {
                     Help.ShowHelp(this, Ruta, HelpNavigator.Topic, "TipoCambio_Bancos.html");
+                    return;
+                }
+                Directorio = Directorio.Parent;
+            }
+            Directorio = new DirectoryInfo(Application.StartupPath);
+            while (Directorio != null)
+            {
+                string html = Path.Combine(Directorio.FullName, "ayuda", "modulos", "bancos", "BancosAyudas", "TipoCambio_Bancos.html");
+                if (File.Exists(html))
+                {
+                    Process.Start(new ProcessStartInfo { FileName = html, UseShellExecute = true });
                     return;
                 }
                 Directorio = Directorio.Parent;
